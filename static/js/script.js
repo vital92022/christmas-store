@@ -97,7 +97,40 @@ happyNewYear = {
 
 	sendOrder : () => {
 
+		let url = '/ajax.php',
+			data = {
+				'id' : $('[name=product-id]').val(),
+				'fio' : $('[name=fio]').val(),
+				'phone' : $('[name=phone]').val(),
+				'email' : $('[name=email]').val(),
+				'comment' : $('[name=comment]').val(),
+			};
+
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: data,
+			dataType: 'json',
+			success: (response) => {
+
+		      let errorsBlock = $('.js_error');
+
+		      if (response.errors) {
+		      	
+		      	errorsBlock.html('');
+
+		      	for (let key in response.errors) {
+		      		errorsBlock.append(response.errors[key] + '<br>');
+		      	}
+		      } else {
+		      	if (response.res == true) {
+		      		errorsBlock.html('Заказ оформлен!');
+		      	}
+		      }
+			}
+		});
 	},
+
 };
 
 /* Timer */
